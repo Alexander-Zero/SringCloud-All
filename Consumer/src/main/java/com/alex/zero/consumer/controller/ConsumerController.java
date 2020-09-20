@@ -15,6 +15,9 @@ import java.util.List;
 @RestController
 public class ConsumerController {
     @Autowired
+    private RestTemplate restTemplate;
+
+    @Autowired
     private DiscoveryClient discoveryClient;
     @Autowired
     private EurekaDiscoveryClient eurekaDiscoveryClient;
@@ -32,15 +35,17 @@ public class ConsumerController {
         List<ServiceInstance> provider = eurekaDiscoveryClient.getInstances("provider");
         ServiceInstance serviceInstance = provider.get(1);
         String url = "http://" + serviceInstance.getHost() + ":" + serviceInstance.getPort() + "/test";
-        RestTemplate restTemplate = new RestTemplate();
+
         ResponseEntity<String> forEntity = restTemplate.getForEntity(url, String.class);
         String body = forEntity.getBody();
-        ServiceInstance provider1 = balancerClient.choose("provider");
-        String url2 = "http://" + provider1.getHost() + ":" + provider1.getPort() + "/test";
-        String body1 = restTemplate.getForEntity(url2, String.class).getBody();
-        System.out.println(body1);
 
-        return "This is Client";
+
+        ServiceInstance provider1 = balancerClient.choose("provider");
+        String url2 = "http://" + provider1.getHost() + ":" + provider1.getPort() + "/port";
+        String portInfo = restTemplate.getForEntity(url2, String.class).getBody();
+        System.out.println(portInfo);
+
+        return "This is Client"+ portInfo;
     }
 
 }
