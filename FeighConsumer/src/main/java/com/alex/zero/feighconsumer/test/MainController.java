@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/feign")
 @RefreshScope
+@RequestMapping("/feign")
 public class MainController {
     @Autowired
     private ConsumerUser consumerUser;
