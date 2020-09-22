@@ -34,6 +34,10 @@
         </dependency>
 
 
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bus-amqp</artifactId>
+        </dependency>
 
         <!-- 链路追踪-->
         <dependency>
@@ -113,5 +117,6 @@
             </plugin>
         </plugins>
     </build>
+
 
 </project>

@@ -1,15 +1,14 @@
 package com.alex.zero.feighconsumer.test;
 
+import com.alex.zero.feighconsumer.config.ParameterConfig;
 import com.alex.zero.providerapi.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RefreshScope
 @RequestMapping("/feign")
 public class MainController {
     @Autowired
@@ -21,8 +20,9 @@ public class MainController {
     @Autowired
     private RestService restService;
 
-    @Value("${server.port}")
-    private Integer port;
+    @Autowired
+    private ParameterConfig parameter;
+
 
     @GetMapping("/test1")
     public String test1() {
@@ -56,15 +56,13 @@ public class MainController {
 
     @GetMapping("/port")
     public String port() {
-        return "Consumer Port is " + port + ", " + consumerUser.port();
+        return "Consumer Port is " + parameter.getPort() + ", " + consumerUser.port();
     }
 
-    @Value("${msg}")
-    private String msg;
 
     @GetMapping("/msg")
     private String getMsg() {
-        return "port is " + port + ",Message is " + msg;
+        return "port is " + parameter.getPort() + ",Message is " + parameter.getMsg();
     }
 
 
